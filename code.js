@@ -4,10 +4,10 @@ function renderLightning() {
 
     var filters = `
     <filter id="displacementFilter">
-        <feTurbulence type="turbulence" baseFrequency="0.05"
-            numOctaves="2" result="turbulence"/>
+        <feTurbulence type="turbulence" baseFrequency="0.005"
+            numOctaves="20" result="turbulence"/>
         <feDisplacementMap in2="turbulence" in="SourceGraphic"
-            scale="50" xChannelSelector="R" yChannelSelector="G"/>
+            scale="169" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
     `;
     svgElem.innerHTML = filters;
