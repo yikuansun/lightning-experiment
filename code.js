@@ -1,4 +1,4 @@
-function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitchOctaves=20, numBranches=5, branchLen=300, branchAngle=Math.PI/4, branchLenDelta=50, softness=2, glowRadius=10, glowColor="#AADDFF") {
+function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitchOctaves=20, numBranches=5, branchLen=300, branchAngle=Math.PI/4, branchLenDelta=50, softness=2, glowRadius=10, glowColor="#00BBFF") {
     const svgns = "http://www.w3.org/2000/svg";
     var svgElem = document.querySelector("svg");
 
