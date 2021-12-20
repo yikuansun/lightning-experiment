@@ -1,4 +1,4 @@
-function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitchOctaves=20, numBranches=5, branchLen=300, branchAngle=Math.PI/4, branchLenDelta=50) {
+function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitchOctaves=20, numBranches=5, branchLen=300, branchAngle=Math.PI/4, branchLenDelta=50, softness=2) {
     const svgns = "http://www.w3.org/2000/svg";
     var svgElem = document.querySelector("svg");
 
@@ -9,11 +9,15 @@ function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitch
         <feDisplacementMap in2="turbulence" in="SourceGraphic"
             scale="${twitchAmount}" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
+
+    <filter id="blurFilter">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="${softness}" />
+    </filter>
     `;
     svgElem.innerHTML = filters;
 
     var baseGroup = document.createElementNS(svgns, "g");
-    baseGroup.style.filter = "url(#displacementFilter)";
+    baseGroup.style.filter = "url(#displacementFilter) url(#blurFilter)";
     svgElem.appendChild(baseGroup);
 
     var baseLine = document.createElementNS(svgns, "line");
