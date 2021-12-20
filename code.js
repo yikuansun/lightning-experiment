@@ -1,13 +1,13 @@
-function renderLightning(indent=100, numBranches=5, branchLen=300, branchAngle=Math.PI/4, branchLenDelta=50) {
+function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitchOctaves=20, numBranches=5, branchLen=300, branchAngle=Math.PI/4, branchLenDelta=50) {
     const svgns = "http://www.w3.org/2000/svg";
     var svgElem = document.querySelector("svg");
 
     var filters = `
     <filter id="displacementFilter">
-        <feTurbulence type="turbulence" baseFrequency="0.005"
-            numOctaves="20" result="turbulence"/>
+        <feTurbulence type="turbulence" baseFrequency="${twitchScale}"
+            numOctaves="${twitchOctaves}" result="turbulence"/>
         <feDisplacementMap in2="turbulence" in="SourceGraphic"
-            scale="169" xChannelSelector="R" yChannelSelector="G"/>
+            scale="${twitchAmount}" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
     `;
     svgElem.innerHTML = filters;
