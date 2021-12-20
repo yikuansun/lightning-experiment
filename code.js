@@ -1,4 +1,4 @@
-function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitchOctaves=20, twitchSeed=0, numBranches=5, branchLen=300, branchAngle=Math.PI/4, branchLenDelta=50, softness=2, glowRadius=10, glowColor="#00BBFF") {
+function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitchOctaves=20, twitchSeed=0, numBranches=5, branchLen=300, branchAngle=Math.PI/4, branchLenDelta=50, coreSize=10, softness=2, glowRadius=10, glowColor="#00BBFF") {
     const svgns = "http://www.w3.org/2000/svg";
     var svgElem = document.querySelector("svg");
 
@@ -40,7 +40,7 @@ function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitch
     baseLine.setAttribute("x1", indent);baseLine.setAttribute("x2", 1280 - indent);
     baseLine.setAttribute("y1", indent);baseLine.setAttribute("y2", 720 - indent);
     baseLine.setAttribute("stroke", "white");
-    baseLine.style.strokeWidth = "10px";
+    baseLine.style.strokeWidth = `${coreSize}px`;
     baseLine.style.strokeLinecap = "round";
     baseGroup.appendChild(baseLine);
 
@@ -53,7 +53,7 @@ function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitch
         branch.setAttribute("x1", indent + i * branchSpace);branch.setAttribute("x2", indent + i * branchSpace + branchLen * Math.cos(baseAngle + branchAngle * flipBranch));
         branch.setAttribute("y1", indent + i * slope * branchSpace);branch.setAttribute("y2", indent + i * slope * branchSpace + branchLen * Math.sin(baseAngle + branchAngle * flipBranch));
         branch.setAttribute("stroke", "white");
-        branch.style.strokeWidth = "10px";
+        branch.style.strokeWidth = `${coreSize}px`;
         branch.style.strokeLinecap = "round";
         baseGroup.appendChild(branch);
         branchLen -= branchLenDelta;
@@ -79,6 +79,7 @@ for (var inputElem of document.querySelectorAll("input")) {
             branchLen=options.branchLen,
             branchAngle=options.branchAngle,
             branchLenDelta=options.branchLenDelta,
+            coreSize=options.coreSize,
             softness=options.softness,
             glowRadius=options.glowRadius,
             glowColor=options.glowColor
