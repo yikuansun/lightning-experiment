@@ -12,14 +12,17 @@ function renderLightning(indent=100) {
     `;
     svgElem.innerHTML = filters;
 
+    var baseGroup = document.createElementNS(svgns, "g");
+    baseGroup.style.filter = "url(#displacementFilter)";
+    svgElem.appendChild(baseGroup);
+
     var baseLine = document.createElementNS(svgns, "line");
     baseLine.setAttribute("x1", indent);baseLine.setAttribute("x2", 1280 - indent);
     baseLine.setAttribute("y1", indent);baseLine.setAttribute("y2", 720 - indent);
     baseLine.setAttribute("stroke", "white");
     baseLine.style.strokeWidth = "10px";
     baseLine.style.strokeLinecap = "round";
-    baseLine.style.filter = "url(#displacementFilter)";
-    svgElem.appendChild(baseLine);
+    baseGroup.appendChild(baseLine);
 }
 
 renderLightning();
