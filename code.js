@@ -26,7 +26,7 @@ function renderLightning(indent=100, numBranches=5) {
 
     var slope = (720 - 2 * indent) / (1280 - 2 * indent);
     var branchSpace = (1280 - 2 * indent) / (numBranches + 1);
-    var branchLen = [100, 500];
+    var branchLen = [150, 400];
     for (var i = 1; i < numBranches + 1; i++) {
         var branch = document.createElementNS(svgns, "line");
         var flipBranch = (i % 2 == 0)?-1:1;
