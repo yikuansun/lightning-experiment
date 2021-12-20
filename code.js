@@ -1,4 +1,4 @@
-function renderLightning(indent=100) {
+function renderLightning(indent=100, numBranches=5) {
     const svgns = "http://www.w3.org/2000/svg";
     var svgElem = document.querySelector("svg");
 
@@ -23,6 +23,20 @@ function renderLightning(indent=100) {
     baseLine.style.strokeWidth = "10px";
     baseLine.style.strokeLinecap = "round";
     baseGroup.appendChild(baseLine);
+
+    var slope = (720 - 2 * indent) / (1280 - 2 * indent);
+    var branchSpace = (1280 - 2 * indent) / (numBranches + 1);
+    var branchLen = [100, 500];
+    for (var i = 1; i < numBranches + 1; i++) {
+        var branch = document.createElementNS(svgns, "line");
+        var flipBranch = (i % 2 == 0)?-1:1;
+        branch.setAttribute("x1", indent + i * branchSpace);branch.setAttribute("x2", indent + i * branchSpace + branchLen[0] / i);
+        branch.setAttribute("y1", indent + i * slope * branchSpace);branch.setAttribute("y2", indent + i * slope * branchSpace + branchLen[1] * flipBranch / i);
+        branch.setAttribute("stroke", "white");
+        branch.style.strokeWidth = "10px";
+        branch.style.strokeLinecap = "round";
+        baseGroup.appendChild(branch);
+    }
 }
 
 renderLightning();
