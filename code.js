@@ -1,4 +1,4 @@
-function renderLightning(indent=100, numBranches=5) {
+function renderLightning(indent=100, numBranches=5, branchLen=300, branchAngle=Math.PI/4, branchLenDelta=50) {
     const svgns = "http://www.w3.org/2000/svg";
     var svgElem = document.querySelector("svg");
 
@@ -27,8 +27,6 @@ function renderLightning(indent=100, numBranches=5) {
     var slope = (720 - 2 * indent) / (1280 - 2 * indent);
     var branchSpace = (1280 - 2 * indent) / (numBranches + 1);
     const baseAngle = Math.atan2(720 - 2 * indent, 1280 - 2 * indent);
-    var branchLen = 300;
-    var branchAngle = Math.PI / 4;
     for (var i = 1; i < numBranches + 1; i++) {
         var branch = document.createElementNS(svgns, "line");
         var flipBranch = (i % 2 == 0)?-1:1;
@@ -38,7 +36,7 @@ function renderLightning(indent=100, numBranches=5) {
         branch.style.strokeWidth = "10px";
         branch.style.strokeLinecap = "round";
         baseGroup.appendChild(branch);
-        branchLen -= 50;
+        branchLen -= branchLenDelta;
     }
 }
 
