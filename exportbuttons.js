@@ -21,7 +21,7 @@ document.querySelector("#exportPNG").addEventListener("click", function() {
     }
     rasterize(document.querySelector("svg"), 1, "png").then((x) => {
         if (new URLSearchParams(location.search).get("photopeaPlugin") == "yes") {
-            Photopea.runScript(window.parent, `app.open("${x}", null, true)`)
+            Photopea.runScript(window.parent, `app.open("${x}", null, true)`);
         }
         else {
             var a = document.createElement("a");
@@ -40,3 +40,8 @@ document.querySelector("#exportSVG").addEventListener("click", function() {
     a.download = "lightning.svg";
     a.click();
 });
+
+if (new URLSearchParams(location.search).get("photopeaPlugin") == "yes") {
+    document.querySelector("#exportPNG").innerText = "Add to document";
+    document.querySelector("#exportSVG").style.display = "none";
+}
