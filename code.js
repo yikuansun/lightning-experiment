@@ -1,11 +1,11 @@
-function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitchOctaves=20, numBranches=5, branchLen=300, branchAngle=Math.PI/4, branchLenDelta=50, softness=2, glowRadius=10, glowColor="#00BBFF") {
+function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitchOctaves=20, twitchSeed=0, numBranches=5, branchLen=300, branchAngle=Math.PI/4, branchLenDelta=50, softness=2, glowRadius=10, glowColor="#00BBFF") {
     const svgns = "http://www.w3.org/2000/svg";
     var svgElem = document.querySelector("svg");
 
     var filters = `
     <filter id="displacementFilter">
         <feTurbulence type="turbulence" baseFrequency="${twitchScale}"
-            numOctaves="${twitchOctaves}" result="turbulence"/>
+            numOctaves="${twitchOctaves}" seed="${twitchSeed}" result="turbulence"/>
         <feDisplacementMap in2="turbulence" in="SourceGraphic"
             scale="${twitchAmount}" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
