@@ -1,4 +1,4 @@
-function renderLightning() {
+function renderLightning(indent=100) {
     const svgns = "http://www.w3.org/2000/svg";
     var svgElem = document.querySelector("svg");
 
@@ -13,8 +13,8 @@ function renderLightning() {
     svgElem.innerHTML = filters;
 
     var baseLine = document.createElementNS(svgns, "line");
-    baseLine.setAttribute("x1", 80);baseLine.setAttribute("x2", 1200);
-    baseLine.setAttribute("y1", 80);baseLine.setAttribute("y2", 640);
+    baseLine.setAttribute("x1", indent);baseLine.setAttribute("x2", 1280 - indent);
+    baseLine.setAttribute("y1", indent);baseLine.setAttribute("y2", 720 - indent);
     baseLine.setAttribute("stroke", "white");
     baseLine.style.strokeWidth = "10px";
     baseLine.style.strokeLinecap = "round";
