@@ -61,3 +61,27 @@ function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitch
 }
 
 renderLightning();
+
+for (var inputElem of document.querySelectorAll("input")) {
+    inputElem.addEventListener("input", function() {
+        var options = {};
+        for (var inputElem of document.querySelectorAll("input")) {
+            options[inputElem.id] = inputElem.value;
+            if (!isNaN(inputElem.value)) options[inputElem.id] = parseFloat(inputElem.value);
+        }
+        renderLightning(
+            indent=options.indent,
+            twitchAmount=options.twitchAmount,
+            twitchScale=options.twitchScale,
+            twitchOctaves=options.twitchOctaves,
+            twitchSeed=options.twitchSeed,
+            numBranches=options.numBranches,
+            branchLen=options.branchLen,
+            branchAngle=options.branchAngle,
+            branchLenDelta=options.branchLenDelta,
+            softness=options.softness,
+            glowRadius=options.glowRadius,
+            glowColor=options.glowColor
+        );
+    });
+}
