@@ -11,7 +11,7 @@ function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitch
     </filter>
 
     <filter id="blurFilter">
-        <feConvolveMatrix order="${softness}" kernelMatrix="${("1 ".repeat(softness) + "\n").repeat(softness)}"/>
+        <feConvolveMatrix order="${softness + 1}" kernelMatrix="${("1 ".repeat(softness + 1) + "\n").repeat(softness + 1)}"/>
     </filter>
 
     <filter id="glowFilter1" x="-50%" y="-50%" width="200%" height="200%">
