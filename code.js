@@ -11,7 +11,7 @@ function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitch
     </filter>
 
     <filter id="blurFilter">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="${softness}" />
+        <feConvolveMatrix order="${softness}" kernelMatrix="${("1 ".repeat(softness) + "\n").repeat(softness)}"/>
     </filter>
 
     <filter id="glowFilter1" x="-50%" y="-50%" width="200%" height="200%">
