@@ -60,7 +60,14 @@ function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitch
     }
 }
 
+function newPreview() {
+    rasterize(document.querySelector("svg"), 0.69, "jpeg").then(function(src) {
+        document.querySelector("#newPreview").src = src;
+    });
+}
+
 renderLightning();
+newPreview();
 
 for (var inputElem of document.querySelectorAll("input")) {
     inputElem.addEventListener("input", function() {
@@ -85,5 +92,6 @@ for (var inputElem of document.querySelectorAll("input")) {
             glowRadius=options.glowRadius,
             glowColor=options.glowColor
         );
+        newPreview();
     });
 }

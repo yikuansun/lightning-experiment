@@ -42,4 +42,5 @@ button {
 
 #previewContainer {
     background-color: black;
+    display: none;
 }
