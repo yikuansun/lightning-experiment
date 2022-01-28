@@ -38,6 +38,9 @@ button {
     #previewContainer {
         width: 100%!important;
     }
+    #newPreview {
+        width: 100%!important;
+    }
 }
 
 #previewContainer {
