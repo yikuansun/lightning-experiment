@@ -17,10 +17,11 @@ function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitch
     <filter id="glowFilter1" x="-50%" y="-50%" width="200%" height="200%">
         <feFlood result="flood" flood-color="${glowColor}" flood-opacity="1"></feFlood>
         <feComposite in="flood" result="mask" in2="SourceGraphic" operator="in"></feComposite>
-        <feGaussianBlur in="mask" result="blurred" stdDeviation="${glowRadius}"></feGaussianBlur>
-        <feGaussianBlur in="mask" result="blurred1" stdDeviation="${glowRadius * 2}"></feGaussianBlur>
-        <feGaussianBlur in="mask" result="blurred2" stdDeviation="${glowRadius * 4}"></feGaussianBlur>
-        <feGaussianBlur in="mask" result="blurred3" stdDeviation="${glowRadius * 8}"></feGaussianBlur>
+        <feGaussianBlur in="mask" result="blurred" stdDeviation="${glowRadius * 0.25}"></feGaussianBlur>
+        <feGaussianBlur in="mask" result="blurred1" stdDeviation="${glowRadius * 1}"></feGaussianBlur>
+        <feGaussianBlur in="mask" result="blurred2" stdDeviation="${glowRadius * 2.25}"></feGaussianBlur>
+        <feGaussianBlur in="mask" result="blurred3" stdDeviation="${glowRadius * 4}"></feGaussianBlur>
+        <feGaussianBlur in="mask" result="blurred3" stdDeviation="${glowRadius * 6.25}"></feGaussianBlur>
         <feMerge>
             <feMergeNode in="blurred"></feMergeNode>
             <feMergeNode in="blurred1"></feMergeNode>
