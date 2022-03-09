@@ -19,7 +19,7 @@ input {
     color: aliceblue;
     width: 50px;
     border: 1px solid aliceblue;
-    /*border-radius: 2px;*/
+    border-radius: 2px;
     transition: 0.69s;
 }
 
@@ -41,6 +41,15 @@ button {
     background-color: #333344;
     color: aliceblue;
     font-weight: 400;
+    border: 1px solid aliceblue;
+    border-radius: 2px;
+    transition: 0.69s;
+}
+
+button:hover {
+    outline: none!important;
+    border: 1px solid deepskyblue;
+    color: deepskyblue;
 }
 
 #options {
