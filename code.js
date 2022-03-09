@@ -62,9 +62,21 @@ function renderLightning(indent=100, twitchAmount=169, twitchScale=0.005, twitch
 }
 
 function newPreview() {
-    rasterize(document.querySelector("svg"), 0.69, "jpeg").then(function(src) {
-        document.querySelector("#newPreview").src = src;
-    });
+    var svgElem = document.querySelector("svg");
+    var svgData = new XMLSerializer().serializeToString(svgElem);
+    var imgElem = document.createElement("img");
+    imgElem.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)));
+    imgElem.onload = function() {
+        var svgClientRect = {
+            width: parseFloat(svgElem.getAttribute("viewBox").split(" ")[2]),
+            height: parseFloat(svgElem.getAttribute("viewBox").split(" ")[3])
+        };
+        var canvas = document.querySelector("canvas");
+        canvas.width = svgClientRect.width;
+        canvas.height = svgClientRect.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(imgElem, 0, 0, svgClientRect.width, svgClientRect.height);
+    };
 }
 
 renderLightning();
