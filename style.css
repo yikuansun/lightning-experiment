@@ -34,12 +34,22 @@ button {
     font-weight: 400;
 }
 
+#options {
+    width: calc(600px - 57px);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 @media only screen and (max-width: 600px) {
     #previewContainer {
         width: 100%!important;
     }
     #newPreview {
         width: 100%!important;
+    }
+    #options {
+        width: calc(100% - 57px);
     }
 }
 
