@@ -53,6 +53,8 @@ button {
     border: 1px solid aliceblue;
     border-radius: 2px;
     transition: 0.69s;
+    padding-left: 12px;
+    padding-right: 12px;
 }
 
 button:hover {
