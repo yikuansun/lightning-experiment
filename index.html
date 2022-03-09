@@ -19,36 +19,24 @@
         <div id="options">
             <b>Dimensions</b>
             <div id="Dimensions">
-                Indent <input type="number" value="100" step="1" id="indent" />
             </div>
             <br /><b>Twitch</b>
             <div id="Twitch">
-                Amount <input type="number" value="169" step="1" id="twitchAmount" />
-                <br />Scale <input type="number" value="0.005" step="0.001" id="twitchScale" />
-                <br />Octaves <input type="number" value="20" step="1" min="0" id="twitchOctaves" />
-                <br />Seed <input type="number" value="0" step="1" id="twitchSeed" />
             </div>
             <br /><b>Branches</b>
             <div id="Branches">
-                Amount <input type="number" value="5" step="1" id="numBranches" />
-                <br />Max Length <input type="number" value="300" step="1" id="branchLen" />
-                <br />Length Delta <input type="number" value="50" step="1" id="branchLenDelta" />
-                <br />Angle <input type="number" value="0.785" step="0.005" id="branchAngle" />
             </div>
             <br /><b>Core</b>
             <div id="Core">
-                Size <input type="number" value="10" step="1" id="coreSize" />
-                <br />Softness <input type="number" value="2" step="1" min="0" id="softness" />
-                <br />Color <input type="color" value="#FFFFFF" step="1" id="coreColor" />
             </div>
             <br /><b>Glow</b>
             <div id="Glow">
-                Radius <input type="number" value="10" step="1" id="glowRadius" />
-                <br />Color <input type="color" value="#00BBFF" step="1" id="glowColor" />
             </div>
         </div>
         <script src="lib/photopea.min.js"></script>
         <script src="rasterizer.js"></script>
+        <script src="lib/ygui.js"></script>
+        <script src="guibuild.js"></script>
         <script src="code.js"></script>
         <script src="accordion.js"></script>
         <script src="exportbuttons.js"></script>
