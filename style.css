@@ -13,6 +13,11 @@ body {
 
 b {
     font-weight: 700!important;
+    transition: color 0.69s;
+}
+
+b:hover {
+    color: deepskyblue!important;
 }
 
 input {
