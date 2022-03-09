@@ -1,5 +1,9 @@
+:root {
+    --text-font: "Orbitron", "Segoe UI", sans-serif;
+}
+
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: var(--text-font);
     font-weight: 100;
     font-size: 16px;
     user-select: none;
@@ -8,16 +12,16 @@ body {
 }
 
 b {
-    font-weight: 500!important;
+    font-weight: 700!important;
 }
 
 input {
     font-size: 12px;
     font-weight: 100;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: var(--text-font);
     background-color: #001122;
     color: aliceblue;
-    width: 50px;
+    width: 69px;
     border: 1px solid aliceblue;
     border-radius: 2px;
     transition: 0.69s;
@@ -37,7 +41,7 @@ input[type="color"] {
 
 button {
     cursor: pointer;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: var(--text-font);
     background-color: #001122;
     color: aliceblue;
     font-weight: 400;
