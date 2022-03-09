@@ -11,6 +11,22 @@ body {
     color: aliceblue;
 }
 
+::-webkit-scrollbar {
+    width: 6.9px;
+}
+
+::-webkit-scrollbar-track {
+    opacity: 0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #00000069;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #00000096;
+}
+
 b {
     font-weight: 700!important;
     transition: color 0.69s;
