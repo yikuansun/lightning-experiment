@@ -65,7 +65,6 @@ label {
 }
 
 button {
-    cursor: pointer;
     font-family: var(--text-font);
     background-color: #001122;
     color: aliceblue;
