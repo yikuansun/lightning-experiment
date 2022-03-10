@@ -60,6 +60,10 @@ input[type="color"] {
     border: 0;
 }
 
+label {
+    transition: color 0.69s;
+}
+
 button {
     cursor: pointer;
     font-family: var(--text-font);

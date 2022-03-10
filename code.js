@@ -110,4 +110,11 @@ for (var inputElem of document.querySelectorAll("input")) {
         );
         newPreview();
     });
+
+    inputElem.addEventListener("focus", function(e) {
+        document.querySelector(`label[for=${this.id}]`).style.color = "deepskyblue";
+    });
+    inputElem.addEventListener("blur", function(e) {
+        document.querySelector(`label[for=${this.id}]`).style.color = "";
+    });
 }
