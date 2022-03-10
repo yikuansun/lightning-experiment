@@ -3,7 +3,7 @@ ygui.buildGUIsection([
         label: "Indent",
         id: "indent",
         type: "number",
-        attr: { value: 100, step: 1 }
+        attr: { value: 150, step: 1 }
     }
 ], document.getElementById("Dimensions"));
 ygui.buildGUIsection([
@@ -17,7 +17,7 @@ ygui.buildGUIsection([
         label: "Scale",
         id: "twitchScale",
         type: "number",
-        attr: { value: 0.005, step: 0.001 }
+        attr: { value: 0.004, step: 0.001 }
     },
     {
         label: "Octaves",
@@ -29,7 +29,7 @@ ygui.buildGUIsection([
         label: "Seed",
         id: "twitchSeed",
         type: "number",
-        attr: { value: 0, step: 1 }
+        attr: { value: 8, step: 1 }
     }
 ], document.getElementById("Twitch"));
 ygui.buildGUIsection([
@@ -63,13 +63,13 @@ ygui.buildGUIsection([
         label: "Size",
         id: "coreSize",
         type: "number",
-        attr: { value: 10, step: 1 }
+        attr: { value: 4, step: 1 }
     },
     {
         label: "Softness",
         id: "softness",
         type: "number",
-        attr: { value: 2, step: 1, min: 0 }
+        attr: { value: 4, step: 1, min: 0 }
     },
     {
         label: "Color",
@@ -83,7 +83,7 @@ ygui.buildGUIsection([
         label: "Radius",
         id: "glowRadius",
         type: "number",
-        attr: { value: 10, step: 1 }
+        attr: { value: 8, step: 1 }
     },
     {
         label: "Color",
