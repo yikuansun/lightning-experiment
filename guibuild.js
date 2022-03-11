@@ -23,7 +23,7 @@ ygui.buildGUIsection([
         label: "Complexity",
         id: "twitchOctaves",
         type: "number",
-        attr: { value: 5, step: 1, min: 0 }
+        attr: { value: 5, step: 1, min: 1, max: 9 }
     },
     {
         label: "Seed",
