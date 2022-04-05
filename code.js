@@ -3,14 +3,14 @@ function renderLightning(indent=150, twitchAmount=169, twitchScale=0.004, twitch
     var svgElem = document.querySelector("svg");
 
     var filters = `
-    <filter id="displacementFilter">
+    <filter id="displacementFilter" x="-50%" y="-50%" width="200%" height="200%">
         <feTurbulence type="turbulence" baseFrequency="${twitchScale}"
             numOctaves="${twitchOctaves}" seed="${twitchSeed}" result="turbulence"/>
         <feDisplacementMap in2="turbulence" in="SourceGraphic"
             scale="${twitchAmount}" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
 
-    <filter id="blurFilter">
+    <filter id="blurFilter" x="-50%" y="-50%" width="200%" height="200%">
         <feConvolveMatrix order="${softness + 1}" kernelMatrix="${("1 ".repeat(softness + 1) + "\n").repeat(softness + 1)}" color-interpolation-filters="sRGB" />
     </filter>
 
