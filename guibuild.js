@@ -8,6 +8,13 @@ ygui.buildGUIsection([
 ], document.getElementById("Dimensions"));
 ygui.buildGUIsection([
     {
+        label: "Noise Type",
+        id: "noiseType",
+        type: "select",
+        options: ["Perlin", "Fractal"],
+        attr: { value: "Perlin" }
+    },
+    {
         label: "Amount",
         id: "twitchAmount",
         type: "number",

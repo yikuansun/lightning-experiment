@@ -1,10 +1,10 @@
-function renderLightning(indent=150, twitchAmount=169, twitchScale=0.004, twitchOctaves=5, twitchSeed=8, numBranches=5, branchLen=300, branchAngle=0.785, branchLenDelta=50, coreSize=4, coreColor="#FFFFFF", softness=4, glowRadius=8, glowColor="#00BBFF") {
+function renderLightning(indent=150, noiseType="Perlin", twitchAmount=169, twitchScale=0.004, twitchOctaves=5, twitchSeed=8, numBranches=5, branchLen=300, branchAngle=0.785, branchLenDelta=50, coreSize=4, coreColor="#FFFFFF", softness=4, glowRadius=8, glowColor="#00BBFF") {
     const svgns = "http://www.w3.org/2000/svg";
     var svgElem = document.querySelector("svg");
 
     var filters = `
     <filter id="displacementFilter" x="-50%" y="-50%" width="200%" height="200%">
-        <feTurbulence type="turbulence" baseFrequency="${twitchScale}"
+        <feTurbulence type="${(noiseType == "Perlin")?"turbulence":"fractalNoise"}" baseFrequency="${twitchScale}"
             numOctaves="${twitchOctaves}" seed="${twitchSeed}" result="turbulence"/>
         <feDisplacementMap in2="turbulence" in="SourceGraphic"
             scale="${twitchAmount}" xChannelSelector="R" yChannelSelector="G"/>
@@ -85,15 +85,16 @@ function newPreview() {
 renderLightning();
 newPreview();
 
-for (var inputElem of document.querySelectorAll("input")) {
+for (var inputElem of document.querySelectorAll("input, select")) {
     inputElem.addEventListener("input", function() {
         var options = {};
-        for (var inputElem of document.querySelectorAll("input")) {
+        for (var inputElem of document.querySelectorAll("input, select")) {
             options[inputElem.id] = inputElem.value;
             if (!isNaN(inputElem.value)) options[inputElem.id] = parseFloat(inputElem.value);
         }
         renderLightning(
             indent=options.indent,
+            noiseType=options.noiseType,
             twitchAmount=options.twitchAmount,
             twitchScale=options.twitchScale,
             twitchOctaves=options.twitchOctaves,
