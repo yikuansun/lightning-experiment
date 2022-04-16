@@ -85,10 +85,10 @@ function newPreview() {
 renderLightning();
 newPreview();
 
-for (var inputElem of document.querySelectorAll("input, select")) {
+for (var inputElem of document.querySelectorAll("#options input, #options select")) {
     inputElem.addEventListener("input", function() {
         var options = {};
-        for (var inputElem of document.querySelectorAll("input, select")) {
+        for (var inputElem of document.querySelectorAll("#options input, #options select")) {
             options[inputElem.id] = inputElem.value;
             if (!isNaN(inputElem.value)) options[inputElem.id] = parseFloat(inputElem.value);
         }
