@@ -29,7 +29,7 @@ body {
 
 b {
     font-weight: 700!important;
-    transition: color 0.69s;
+    transition: color 0.2s;
 }
 
 b:hover {
@@ -45,7 +45,7 @@ input, select {
     width: 69px;
     border: 1px solid aliceblue;
     border-radius: 2px;
-    transition: 0.69s;
+    transition: 0.2s;
 }
 
 input:focus, select:focus {
@@ -60,7 +60,7 @@ input[type="color"] {
 }
 
 label {
-    transition: color 0.69s;
+    transition: color 0.2s;
 }
 
 button {
@@ -70,7 +70,7 @@ button {
     font-weight: 400;
     border: 1px solid aliceblue;
     border-radius: 2px;
-    transition: 0.69s;
+    transition: 0.2s;
     padding-left: 12px;
     padding-right: 12px;
 }
