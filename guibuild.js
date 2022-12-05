@@ -3,7 +3,7 @@ ygui.buildGUIsection([
         label: "Indent",
         id: "indent",
         type: "number",
-        attr: { value: 150, step: 1 }
+        attr: { value: 310, step: 1 }
     }
 ], document.getElementById("Dimensions"));
 ygui.buildGUIsection([
