@@ -37,7 +37,7 @@ var availPresets = {
     "Arc": { "indent": 415, "noiseType": "Fractal", "twitchAmount": 222, "twitchScale": 0.004, "twitchOctaves": 5, "twitchSeed": 28, "numBranches": 0, "branchLen": 313, "branchLenDelta": 54, "branchAngle": 0.655, "coreSize": 8, "softness": 4, "coreColor": "#ffffff", "glowRadius": 16, "glowColor": "#00aaff" },
     "Beam": { "indent": 340, "noiseType": "Perlin", "twitchAmount": 16, "twitchScale": 0.033, "twitchOctaves": 5, "twitchSeed": 8, "numBranches": 0, "branchLen": 300, "branchLenDelta": 50, "branchAngle": 0.785, "coreSize": 8, "softness": 2, "coreColor": "#ffffff", "glowRadius": 24, "glowColor": "#ff00ae" },
     "Saber": { "indent": 382, "noiseType": "Fractal", "twitchAmount": 7, "twitchScale": 0.069, "twitchOctaves": 5, "twitchSeed": 8, "numBranches": 0, "branchLen": 300, "branchLenDelta": 50, "branchAngle": 0.785, "coreSize": 12, "softness": 4, "coreColor": "#ffffff", "glowRadius": 18, "glowColor": "#66ff00" },
-    "Incantatem": { "indent": 340, "noiseType": "Fractal", "twitchAmount": 180, "twitchScale": 0.008, "twitchOctaves": 5, "twitchSeed": 16, "numBranches": 0, "branchLen": 300, "branchLenDelta": 50, "branchAngle": 0.785, "coreSize": 10, "softness": 5, "coreColor": "#ffffff", "glowRadius": 15, "glowColor": "#ff1900" }
+    "Incantatem": { "indent": 272, "noiseType": "Fractal", "twitchAmount": 182, "twitchScale": 0.006, "twitchOctaves": 5, "twitchSeed": 16, "numBranches": 0, "branchLen": 300, "branchLenDelta": 50, "branchAngle": 0.785, "coreSize": 10, "softness": 5, "coreColor": "#ffffff", "glowRadius": 15, "glowColor": "#ff1900" },
 };
 for (var presetName in availPresets) {
     var option = document.createElement("option");
