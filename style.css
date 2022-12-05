@@ -73,6 +73,7 @@ button {
     transition: 0.2s;
     padding-left: 12px;
     padding-right: 12px;
+    margin: 6.9px;
 }
 
 button:hover {
