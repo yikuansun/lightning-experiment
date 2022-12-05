@@ -48,3 +48,5 @@ for (var presetName in availPresets) {
 document.querySelector("#presetselector").addEventListener("change", function() {
     setPreset(JSON.parse(this.value));
 });
+
+setPreset(availPresets["Strike"]);
