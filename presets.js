@@ -32,7 +32,7 @@ function setPreset(presetData) {
 }
 
 var availPresets = {
-    "Strike": { "indent": 310, "noiseType": "Perlin", "twitchAmount": 169, "twitchScale": 0.004, "twitchOctaves": 5, "twitchSeed": 8, "numBranches": 5, "branchLen": 300, "branchLenDelta": 50, "branchAngle": 0.785, "coreSize": 4, "softness": 4, "coreColor": "#ffffff", "glowRadius": 8, "glowColor": "#00bbff" },
+    "Strike": { "indent": 377, "noiseType": "Fractal", "twitchAmount": 222, "twitchScale": 0.005, "twitchOctaves": 5, "twitchSeed": 43, "numBranches": 4, "branchLen": 275, "branchLenDelta": 64, "branchAngle": 0.655, "coreSize": 6, "softness": 2, "coreColor": "#ffffff", "glowRadius": 16, "glowColor": "#ffffff" },
     "Flash": { "indent": 292, "noiseType": "Fractal", "twitchAmount": 169, "twitchScale": 0.006, "twitchOctaves": 5, "twitchSeed": 8, "numBranches": 5, "branchLen": 313, "branchLenDelta": 54, "branchAngle": 0.655, "coreSize": 6, "softness": 3, "coreColor": "#fff15c", "glowRadius": 16, "glowColor": "#ff9500" },
     "Arc": { "indent": 415, "noiseType": "Fractal", "twitchAmount": 222, "twitchScale": 0.004, "twitchOctaves": 5, "twitchSeed": 28, "numBranches": 0, "branchLen": 313, "branchLenDelta": 54, "branchAngle": 0.655, "coreSize": 8, "softness": 4, "coreColor": "#ffffff", "glowRadius": 16, "glowColor": "#00aaff" },
     "Beam": { "indent": 340, "noiseType": "Perlin", "twitchAmount": 16, "twitchScale": 0.033, "twitchOctaves": 5, "twitchSeed": 8, "numBranches": 0, "branchLen": 300, "branchLenDelta": 50, "branchAngle": 0.785, "coreSize": 8, "softness": 2, "coreColor": "#ffffff", "glowRadius": 24, "glowColor": "#ff00ae" },
