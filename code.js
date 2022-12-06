@@ -1,20 +1,24 @@
-function renderLightning(indent=150, noiseType="Perlin", twitchAmount=169, twitchScale=0.004, twitchOctaves=5, twitchSeed=8, numBranches=5, branchLen=300, branchAngle=0.785, branchLenDelta=50, coreSize=4, coreColor="#FFFFFF", softness=4, glowRadius=8, glowColor="#00BBFF") {
+function renderLightning(indent=310, noiseType="Perlin", twitchAmount=169, twitchScale=0.004, twitchOctaves=5, twitchSeed=8, numBranches=5, branchLen=300, branchAngle=0.785, branchLenDelta=50, coreSize=4, coreColor="#FFFFFF", softness=4, glowRadius=8, glowColor="#00BBFF") {
     const svgns = "http://www.w3.org/2000/svg";
     var svgElem = document.querySelector("svg");
+    var dimensions = {
+        w: parseFloat(svgElem.getAttribute("viewBox").split(" ")[2]),
+        h: parseFloat(svgElem.getAttribute("viewBox").split(" ")[3])
+    };
 
     var filters = `
-    <filter id="displacementFilter" x="${-indent}" y="${-indent}" width="1280" height="720">
+    <filter id="displacementFilter" x="${-indent}" y="${-indent}" width="${dimensions.w}" height="${dimensions.h}">
         <feTurbulence type="${(noiseType == "Perlin")?"turbulence":"fractalNoise"}" baseFrequency="${twitchScale}"
             numOctaves="${twitchOctaves}" seed="${twitchSeed}" result="turbulence"/>
         <feDisplacementMap in2="turbulence" in="SourceGraphic"
             scale="${twitchAmount}" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
 
-    <filter id="blurFilter" x="${-indent}" y="${-indent}" width="1280" height="720">
+    <filter id="blurFilter" x="${-indent}" y="${-indent}" width="${dimensions.w}" height="${dimensions.h}">
         <feConvolveMatrix order="${softness + 1}" kernelMatrix="${("1 ".repeat(softness + 1) + "\n").repeat(softness + 1)}" color-interpolation-filters="sRGB" />
     </filter>
 
-    <filter id="glowFilter1" x="${-indent}" y="${-indent}" width="1280" height="720">
+    <filter id="glowFilter1" x="${-indent}" y="${-indent}" width="${dimensions.w}" height="${dimensions.h}">
         <feFlood result="flood" flood-color="${glowColor}" flood-opacity="1"></feFlood>
         <feComposite in="flood" result="mask" in2="SourceGraphic" operator="in"></feComposite>
         <feGaussianBlur in="mask" result="blurred" stdDeviation="${glowRadius * 0.1}"></feGaussianBlur>
@@ -43,16 +47,16 @@ function renderLightning(indent=150, noiseType="Perlin", twitchAmount=169, twitc
     svgElem.appendChild(baseGroup);
 
     var baseLine = document.createElementNS(svgns, "line");
-    baseLine.setAttribute("x1", indent);baseLine.setAttribute("x2", 1280 - indent);
-    baseLine.setAttribute("y1", indent);baseLine.setAttribute("y2", 720 - indent);
+    baseLine.setAttribute("x1", indent);baseLine.setAttribute("x2", dimensions.w - indent);
+    baseLine.setAttribute("y1", indent);baseLine.setAttribute("y2", dimensions.h - indent);
     baseLine.setAttribute("stroke", coreColor);
     baseLine.style.strokeWidth = `${coreSize}px`;
     baseLine.style.strokeLinecap = "round";
     baseGroup.appendChild(baseLine);
 
-    var slope = (720 - 2 * indent) / (1280 - 2 * indent);
-    var branchSpace = (1280 - 2 * indent) / (numBranches + 1);
-    const baseAngle = Math.atan2(720 - 2 * indent, 1280 - 2 * indent);
+    var slope = (dimensions.h - 2 * indent) / (dimensions.w - 2 * indent);
+    var branchSpace = (dimensions.w - 2 * indent) / (numBranches + 1);
+    const baseAngle = Math.atan2(dimensions.h - 2 * indent, dimensions.w - 2 * indent);
     for (var i = 1; i < numBranches + 1; i++) {
         var branch = document.createElementNS(svgns, "line");
         var flipBranch = (i % 2 == 0)?-1:1;
