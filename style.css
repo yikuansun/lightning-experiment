@@ -9,6 +9,7 @@ body {
     user-select: none;
     background-color: #11111a;
     color: aliceblue;
+    overflow-y: scroll;
 }
 
 ::-webkit-scrollbar {
