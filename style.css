@@ -21,11 +21,11 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #00000069;
+    background: #003355;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #00000096;
+    background: #0055AA;
 }
 
 b {
