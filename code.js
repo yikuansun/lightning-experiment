@@ -57,11 +57,12 @@ function renderLightning(indent=310, noiseType="Perlin", twitchAmount=169, twitc
     var slope = (dimensions.h - 2 * indent) / (dimensions.w - 2 * indent);
     var branchSpace = (dimensions.w - 2 * indent) / (numBranches + 1);
     const baseAngle = Math.atan2(dimensions.h - 2 * indent, dimensions.w - 2 * indent);
+    var branchAngleConverted = branchAngle * Math.PI / 180;
     for (var i = 1; i < numBranches + 1; i++) {
         var branch = document.createElementNS(svgns, "line");
         var flipBranch = (i % 2 == 0)?-1:1;
-        branch.setAttribute("x1", indent + i * branchSpace);branch.setAttribute("x2", indent + i * branchSpace + branchLen * Math.cos(baseAngle + branchAngle * flipBranch));
-        branch.setAttribute("y1", indent + i * slope * branchSpace);branch.setAttribute("y2", indent + i * slope * branchSpace + branchLen * Math.sin(baseAngle + branchAngle * flipBranch));
+        branch.setAttribute("x1", indent + i * branchSpace);branch.setAttribute("x2", indent + i * branchSpace + branchLen * Math.cos(baseAngle + branchAngleConverted * flipBranch));
+        branch.setAttribute("y1", indent + i * slope * branchSpace);branch.setAttribute("y2", indent + i * slope * branchSpace + branchLen * Math.sin(baseAngle + branchAngleConverted * flipBranch));
         branch.setAttribute("stroke", coreColor);
         branch.style.strokeWidth = `${coreSize}px`;
         branch.style.strokeLinecap = "round";

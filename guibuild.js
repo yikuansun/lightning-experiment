@@ -59,10 +59,10 @@ ygui.buildGUIsection([
         attr: { value: 50, step: 1, min: 0 }
     },
     {
-        label: "Angle (radians)",
+        label: "Angle",
         id: "branchAngle",
         type: "number",
-        attr: { value: 0.785, step: 0.005 }
+        attr: { value: 45, step: 1, min: 0, max: 360 }
     }
 ], document.getElementById("Branches"));
 ygui.buildGUIsection([
