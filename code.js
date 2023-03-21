@@ -28,14 +28,15 @@ function renderLightning(indent=310, noiseType="Perlin", twitchAmount=169, twitc
         <feGaussianBlur in="mask" result="blurred4" stdDeviation="${glowRadius * 2.5}"></feGaussianBlur>
         <feGaussianBlur in="mask" result="blurred5" stdDeviation="${glowRadius * 3.6}"></feGaussianBlur>
         <feGaussianBlur in="mask" result="blurred6" stdDeviation="${glowRadius * 4.9}"></feGaussianBlur>
+        <feBlend in="blurred" in2="blurred1" mode="screen" result="glowLayer1" />
+        <feBlend in="glowLayer1" in2="blurred2" mode="screen" result="glowLayer2" />
+        <feBlend in="glowLayer2" in2="blurred3" mode="screen" result="glowLayer3" />
+        <feBlend in="glowLayer3" in2="blurred4" mode="screen" result="glowLayer4" />
+        <feBlend in="glowLayer4" in2="blurred5" mode="screen" result="glowLayer5" />
+        <feBlend in="glowLayer5" in2="blurred6" mode="screen" result="glowLayer6" />
+        <feBlend in="glowLayer6" in2="blurred7" mode="screen" result="glowLayer7" />
         <feMerge>
-            <feMergeNode in="blurred"></feMergeNode>
-            <feMergeNode in="blurred1"></feMergeNode>
-            <feMergeNode in="blurred2"></feMergeNode>
-            <feMergeNode in="blurred3"></feMergeNode>
-            <feMergeNode in="blurred4"></feMergeNode>
-            <feMergeNode in="blurred5"></feMergeNode>
-            <feMergeNode in="blurred6"></feMergeNode>
+            <feMergeNode in="glowLayer7"></feMergeNode>
             <feMergeNode in="SourceGraphic"></feMergeNode>
         </feMerge>
     </filter>
