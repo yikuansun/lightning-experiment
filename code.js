@@ -32,9 +32,9 @@ function renderLightning(indent=310, noiseType="Perlin", twitchAmount=169, twitc
         `;
     }
     filters += `
-        <feMerge>
-            <feMergeNode in="glowLayer${glowDepth}"></feMergeNode>
-            <feMergeNode in="SourceGraphic"></feMergeNode>
+        <feMerge>`;
+    if (glowDepth > 0) filters += `<feMergeNode in="glowLayer${glowDepth}"></feMergeNode>`;
+    filters += `<feMergeNode in="SourceGraphic"></feMergeNode>
         </feMerge>
     </filter>
     `;
