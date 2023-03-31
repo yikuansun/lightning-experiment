@@ -1,4 +1,4 @@
-function renderLightning(indent=310, noiseType="Perlin", twitchAmount=169, twitchScale=0.004, twitchOctaves=5, twitchSeed=8, numBranches=5, branchLen=300, branchAngle=0.785, branchLenDelta=50, coreSize=4, coreColor="#FFFFFF", softness=4, glowRadius=0.8, glowDepth=7, glowColor="#00BBFF") {
+function renderLightning(indent=310, noiseType="Perlin", twitchAmount=169, twitchScale=0.004, twitchOctaves=5, twitchSeed=8, numBranches=5, branchLen=300, branchAngle=0.785, branchLenDelta=50, coreSize=4, coreColor="#FFFFFF", softness=4, glowRadius=0.8, glowDepth=7, glowColor="#00BBFF", glowNoiseType="Fractal", glowTwitchAmount=72, glowTwitchScale=0.008, glowTwitchOctaves=7, glowTwitchSeed=1) {
     const svgns = "http://www.w3.org/2000/svg";
     var svgElem = document.querySelector("svg");
     var dimensions = {
@@ -32,8 +32,14 @@ function renderLightning(indent=310, noiseType="Perlin", twitchAmount=169, twitc
         `;
     }
     filters += `
+        <feTurbulence type="${(glowNoiseType == "Perlin")?"turbulence":"fractalNoise"}" baseFrequency="${glowTwitchScale}"
+            numOctaves="${glowTwitchOctaves}" seed="${glowTwitchSeed}" result="glowFNoise" />
+        <feDisplacementMap in2="glowFNoise" in="glowLayer${glowDepth}"
+            scale="${glowTwitchAmount}" xChannelSelector="R" yChannelSelector="G" result="glowFinal" />
+    `;
+    filters += `
         <feMerge>`;
-    if (glowDepth > 0) filters += `<feMergeNode in="glowLayer${glowDepth}"></feMergeNode>`;
+    if (glowDepth > 0) filters += `<feMergeNode in="glowFinal"></feMergeNode>`;
     filters += `<feMergeNode in="SourceGraphic"></feMergeNode>
         </feMerge>
     </filter>
@@ -67,6 +73,11 @@ function renderLightning(indent=310, noiseType="Perlin", twitchAmount=169, twitc
         baseGroup.appendChild(branch);
         branchLen -= branchLenDelta;
     }
+    console.log(glowNoiseType,
+            glowTwitchAmount,
+            glowTwitchScale,
+            glowTwitchOctaves,
+            glowTwitchSeed);
 }
 
 function newPreview() {
@@ -113,7 +124,12 @@ for (var inputElem of document.querySelectorAll("#options input, #options select
             softness=options.softness,
             glowRadius=options.glowRadius,
             glowDepth=options.glowDepth,
-            glowColor=options.glowColor
+            glowColor=options.glowColor,
+            glowNoiseType=options.glowNoiseType,
+            glowTwitchAmount=options.glowTwitchAmount,
+            glowTwitchScale=options.glowTwitchScale,
+            glowTwitchOctaves=options.glowTwitchOctaves,
+            glowTwitchSeed=options.glowTwitchSeed,
         );
         newPreview();
     });
