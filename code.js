@@ -73,11 +73,6 @@ function renderLightning(indent=310, noiseType="Perlin", twitchAmount=169, twitc
         baseGroup.appendChild(branch);
         branchLen -= branchLenDelta;
     }
-    console.log(glowNoiseType,
-            glowTwitchAmount,
-            glowTwitchScale,
-            glowTwitchOctaves,
-            glowTwitchSeed);
 }
 
 function newPreview() {
