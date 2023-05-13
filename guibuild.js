@@ -87,10 +87,16 @@ ygui.buildGUIsection([
 ], document.getElementById("Core"));
 ygui.buildGUIsection([
     {
+        label: "Depth",
+        id: "glowDepth",
+        type: "number",
+        attr: { value: 8, step: 1, min: 0, max: 20 }
+    },
+    {
         label: "Radius",
         id: "glowRadius",
         type: "number",
-        attr: { value: 8, step: 1 }
+        attr: { value: 8, step: 0.1 }
     },
     {
         label: "Color",
@@ -99,3 +105,37 @@ ygui.buildGUIsection([
         attr: { value: "#00BBFF" }
     }
 ], document.getElementById("Glow"));
+ygui.buildGUIsection([
+    {
+        label: "Noise Type",
+        id: "glowNoiseType",
+        type: "select",
+        options: ["Perlin", "Fractal"],
+        attr: { value: "Fractal" }
+    },
+    {
+        label: "Amount",
+        id: "glowTwitchAmount",
+        type: "number",
+        attr: { value: 72, step: 1 }
+    },
+    {
+        label: "Scale",
+        id: "glowTwitchScale",
+        type: "number",
+        attr: { value: 0.008, step: 0.001 }
+    },
+    {
+        label: "Complexity",
+        id: "glowTwitchOctaves",
+        type: "number",
+        attr: { value: 7, step: 1, min: 1, max: 9 }
+    },
+    {
+        label: "Seed",
+        id: "glowTwitchSeed",
+        type: "number",
+        attr: { value: 1, step: 1 }
+    }
+], document.getElementById("Glow_Distortion"));
+document.querySelector("#glowNoiseType").value = "Fractal"; //????

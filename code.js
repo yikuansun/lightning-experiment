@@ -1,4 +1,4 @@
-function renderLightning(indent=310, noiseType="Perlin", twitchAmount=169, twitchScale=0.004, twitchOctaves=5, twitchSeed=8, numBranches=5, branchLen=300, branchAngle=0.785, branchLenDelta=50, coreSize=4, coreColor="#FFFFFF", softness=4, glowRadius=8, glowColor="#00BBFF") {
+function renderLightning(indent=310, noiseType="Perlin", twitchAmount=169, twitchScale=0.004, twitchOctaves=5, twitchSeed=8, numBranches=5, branchLen=300, branchAngle=0.785, branchLenDelta=50, coreSize=4, coreColor="#FFFFFF", softness=4, glowRadius=0.8, glowDepth=7, glowColor="#00BBFF", glowNoiseType="Fractal", glowTwitchAmount=72, glowTwitchScale=0.008, glowTwitchOctaves=7, glowTwitchSeed=1) {
     const svgns = "http://www.w3.org/2000/svg";
     var svgElem = document.querySelector("svg");
     var dimensions = {
@@ -20,23 +20,27 @@ function renderLightning(indent=310, noiseType="Perlin", twitchAmount=169, twitc
 
     <filter id="glowFilter1" x="${-indent}" y="${-indent}" width="${dimensions.w}" height="${dimensions.h}">
         <feFlood result="flood" flood-color="${glowColor}" flood-opacity="1"></feFlood>
-        <feComposite in="flood" result="mask" in2="SourceGraphic" operator="in"></feComposite>
-        <feGaussianBlur in="mask" result="blurred" stdDeviation="${glowRadius * 0.1}"></feGaussianBlur>
-        <feGaussianBlur in="mask" result="blurred1" stdDeviation="${glowRadius * 0.4}"></feGaussianBlur>
-        <feGaussianBlur in="mask" result="blurred2" stdDeviation="${glowRadius * 0.9}"></feGaussianBlur>
-        <feGaussianBlur in="mask" result="blurred3" stdDeviation="${glowRadius * 1.6}"></feGaussianBlur>
-        <feGaussianBlur in="mask" result="blurred4" stdDeviation="${glowRadius * 2.5}"></feGaussianBlur>
-        <feGaussianBlur in="mask" result="blurred5" stdDeviation="${glowRadius * 3.6}"></feGaussianBlur>
-        <feGaussianBlur in="mask" result="blurred6" stdDeviation="${glowRadius * 4.9}"></feGaussianBlur>
-        <feMerge>
-            <feMergeNode in="blurred"></feMergeNode>
-            <feMergeNode in="blurred1"></feMergeNode>
-            <feMergeNode in="blurred2"></feMergeNode>
-            <feMergeNode in="blurred3"></feMergeNode>
-            <feMergeNode in="blurred4"></feMergeNode>
-            <feMergeNode in="blurred5"></feMergeNode>
-            <feMergeNode in="blurred6"></feMergeNode>
-            <feMergeNode in="SourceGraphic"></feMergeNode>
+        <feComposite in="flood" result="mask" in2="SourceGraphic" operator="in"></feComposite>`;
+    for (var i = 0; i < glowDepth; i++) {
+        filters += `
+        <feGaussianBlur in="mask" result="blurred${i}" stdDeviation="${glowRadius * Math.pow(i + 1, 2)}"></feGaussianBlur>
+        `;
+    }
+    for (var i = 0; i < glowDepth; i++) {
+        filters += `
+        <feBlend in="${(i == 0)?"blurred0":("glowLayer" + i)}" in2="blurred${i + 1}" mode="screen" result="glowLayer${i + 1}" />
+        `;
+    }
+    filters += `
+        <feTurbulence type="${(glowNoiseType == "Perlin")?"turbulence":"fractalNoise"}" baseFrequency="${glowTwitchScale}"
+            numOctaves="${glowTwitchOctaves}" seed="${glowTwitchSeed}" result="glowFNoise" />
+        <feDisplacementMap in2="glowFNoise" in="glowLayer${glowDepth}"
+            scale="${glowTwitchAmount}" xChannelSelector="R" yChannelSelector="G" result="glowFinal" />
+    `;
+    filters += `
+        <feMerge>`;
+    if (glowDepth > 0) filters += `<feMergeNode in="glowFinal"></feMergeNode>`;
+    filters += `<feMergeNode in="SourceGraphic"></feMergeNode>
         </feMerge>
     </filter>
     `;
@@ -114,7 +118,13 @@ for (var inputElem of document.querySelectorAll("#options input, #options select
             coreColor=options.coreColor,
             softness=options.softness,
             glowRadius=options.glowRadius,
-            glowColor=options.glowColor
+            glowDepth=options.glowDepth,
+            glowColor=options.glowColor,
+            glowNoiseType=options.glowNoiseType,
+            glowTwitchAmount=options.glowTwitchAmount,
+            glowTwitchScale=options.glowTwitchScale,
+            glowTwitchOctaves=options.glowTwitchOctaves,
+            glowTwitchSeed=options.glowTwitchSeed,
         );
         newPreview();
     });

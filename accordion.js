@@ -1,6 +1,6 @@
 for (var sectionHeader of document.querySelectorAll("#options b")) {
     sectionHeader.addEventListener("click", function() {
-        var correspondingSection = document.getElementById(this.innerText);
+        var correspondingSection = document.getElementById(this.innerText.replaceAll(" ", "_"));
         if (correspondingSection.style.display == "none") correspondingSection.style.display = "block";
         else correspondingSection.style.display = "none";
         if (this.style.color == "") this.style.color = "deepskyblue";
