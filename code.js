@@ -1,4 +1,15 @@
+let canRender = true;
+function cooldown(ms=20) {
+    canRender = false;
+    setTimeout(() => {
+        canRender = true;
+    }, ms);
+}
+
 function renderLightning(options) {
+    if (!canRender) return;
+    cooldown(20);
+
     let displacementMapCanv = document.getElementById("displacementMapCanv");
     let displacementMapCtx = displacementMapCanv.getContext("2d");
     let displacementMap = new FractalNoise(2000, 1000, {
