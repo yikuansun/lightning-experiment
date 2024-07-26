@@ -1,4 +1,4 @@
-function getPreset() {
+/*function getPreset() {
     var presetData = {};
     for (var inputElem of document.querySelectorAll("#options input, #options select")) {
         presetData[inputElem.id] = inputElem.value;
@@ -55,4 +55,4 @@ document.querySelector("#presetselector").addEventListener("change", function() 
     setPreset(JSON.parse(this.value));
 });
 
-setPreset(availPresets["Strike"]);
+setPreset(availPresets["Strike"]);*/

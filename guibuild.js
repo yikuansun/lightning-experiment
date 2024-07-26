@@ -1,10 +1,16 @@
 ygui.buildGUIsection([
     {
-        label: "Indent",
-        id: "indent",
+        label: "Length",
+        id: "baseLength",
         type: "number",
-        attr: { value: 310, step: 1 }
-    }
+        attr: { value: 1000, step: 1 }
+    },
+    {
+        label: "Taper",
+        id: "taper",
+        type: "number",
+        attr: { value: 70, step: 1 }
+    },
 ], document.getElementById("Dimensions"));
 ygui.buildGUIsection([
     {
