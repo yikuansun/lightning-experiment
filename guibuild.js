@@ -30,7 +30,7 @@ ygui.buildGUIsection([
         label: "Scale",
         id: "twitchScale",
         type: "number",
-        attr: { value: 0.004, step: 0.001 }
+        attr: { value: 0.005, step: 0.001 }
     },
     {
         label: "Complexity",

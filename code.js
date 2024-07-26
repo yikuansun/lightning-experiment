@@ -18,7 +18,7 @@ function renderLightning(options, cooled=true) {
     let displacementMapCanv = document.getElementById("displacementMapCanv");
     let displacementMapCtx = displacementMapCanv.getContext("2d");
     let displacementMap = new FractalNoise(2000, 1000, {
-        baseFrequency: [0.005, 0.005],
+        baseFrequency: [options["twitchScale"], options["twitchScale"]],
         type: "fractalNoise",
         numOctaves: 10,
         seed: 1,
