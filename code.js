@@ -6,8 +6,13 @@ function cooldown(ms=20) {
     }, ms);
 }
 
-function renderLightning(options) {
-    if (!canRender) return;
+function renderLightning(options, cooled=true) {
+    if (!canRender) {
+        if (cooled) setTimeout(() => {
+                renderLightning(options, cooled=false);
+            }, 20);
+        return;
+    };
     cooldown(20);
 
     let displacementMapCanv = document.getElementById("displacementMapCanv");
@@ -34,11 +39,12 @@ function renderLightning(options) {
     let baseThickness = 10;
     baseCtx.fillStyle = "white";
     for (let x = startX; x <= endX; x += 1) {
+        let y = 500;
         let displacedX = x,
             displacedY = 500;
-        let [ r, g, b, a ] = manipulator.getPixel(Math.round(x), 500);
+        let [ r, g, b, a ] = manipulator.getPixel(Math.round(x), Math.round(y));
         let luma = (r + g + b) / (3 * 255);
-        let deltaPos = (luma - 0.5) * 400;
+        let deltaPos = (luma - 0.5) * options["twitchAmount"];
         displacedY += Math.round(deltaPos);
         //displacedX += deltaPos;
         let progress = (x - startX) / options["baseLength"];

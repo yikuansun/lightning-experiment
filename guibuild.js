@@ -24,7 +24,7 @@ ygui.buildGUIsection([
         label: "Amount",
         id: "twitchAmount",
         type: "number",
-        attr: { value: 169, step: 1 }
+        attr: { value: 400, step: 1 }
     },
     {
         label: "Scale",
