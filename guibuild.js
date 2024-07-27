@@ -9,7 +9,7 @@ ygui.buildGUIsection([
         label: "Taper",
         id: "taper",
         type: "number",
-        attr: { value: 70, step: 1 }
+        attr: { value: 70, step: 1, min: 0, max: 100, }
     },
 ], document.getElementById("Dimensions"));
 ygui.buildGUIsection([

@@ -53,6 +53,31 @@ function renderLightning(options, cooled=true) {
         baseCtx.arc(displacedX, displacedY, radius, 0, 2 * Math.PI);
         baseCtx.fill();
     }
+
+    let branchAngleRad = options["branchAngle"] * Math.PI / 180;
+    let branchSpace = options["baseLength"] / (options["numBranches"] + 1);
+    for (let i = 0; i < options["numBranches"]; i++) {
+        let flipBranch = (i % 2 == 0)?1:-1;
+        let branchLength = options["branchLen"] - options["branchLenDelta"] * i;
+        let branchStartX = startX + (i + 1) * branchSpace,
+            branchStartY = 500;
+            for (let dist = 0; dist < branchLength; dist++) {
+                let x = branchStartX + dist * Math.cos(branchAngleRad),
+                    y = branchStartY + dist * Math.sin(branchAngleRad) * flipBranch;
+                let displacedX = x, displacedY = y;
+                let [ r, g, b ] = manipulator.getPixel(Math.round(x), Math.round(y));
+                let luma = (r + g + b) / (3 * 255);
+                let deltaPos = (luma - 0.5) * options["twitchAmount"];
+                displacedY += Math.round(deltaPos);
+                let progress = dist / branchLength;
+                let startRadius = baseThickness * (1 - (branchStartX - startX) / options["baseLength"] * options["taper"] / 100);
+                let radius = startRadius * (1 - progress * options["taper"] / 100);
+                baseCtx.beginPath();
+                baseCtx.arc(displacedX, displacedY, radius, 0, 2 * Math.PI);
+                baseCtx.fill();
+
+            }
+    }
 }
 
 function renderFromInputs() {
