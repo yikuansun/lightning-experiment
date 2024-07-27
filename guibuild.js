@@ -18,7 +18,7 @@ ygui.buildGUIsection([
         id: "noiseType",
         type: "select",
         options: ["Perlin", "Fractal"],
-        attr: { value: "Perlin" }
+        attr: { value: "Fractal" },
     },
     {
         label: "Amount",
@@ -62,13 +62,13 @@ ygui.buildGUIsection([
         label: "Length Delta",
         id: "branchLenDelta",
         type: "number",
-        attr: { value: 50, step: 1, min: 0 }
+        attr: { value: 54, step: 1, min: 0 }
     },
     {
         label: "Angle",
         id: "branchAngle",
         type: "number",
-        attr: { value: 45, step: 1, min: 0, max: 360 }
+        attr: { value: 33, step: 1, min: 0, max: 360 }
     }
 ], document.getElementById("Branches"));
 ygui.buildGUIsection([
@@ -145,3 +145,4 @@ ygui.buildGUIsection([
     }
 ], document.getElementById("Glow_Distortion"));
 document.querySelector("#glowNoiseType").value = "Fractal"; //????
+document.querySelector("#noiseType").value = "Fractal";
