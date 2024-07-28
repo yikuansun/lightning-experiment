@@ -85,6 +85,12 @@ function renderLightning(options, cooled=true) {
         glowCtx.drawImage(baseCanv, 0, 0);
     }
     glowCtx.restore();
+
+    baseCtx.save();
+    baseCtx.globalCompositeOperation = "source-atop";
+    baseCtx.fillStyle = options["coreColor"];
+    baseCtx.fillRect(0, 0, 2000, 1000);
+    baseCtx.restore();
 }
 
 function renderFromInputs() {
