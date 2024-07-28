@@ -1,19 +1,6 @@
-let canRender = true;
-function cooldown(ms=20) {
-    canRender = false;
-    setTimeout(() => {
-        canRender = true;
-    }, ms);
-}
+let unsavedChanges = false;
 
 function renderLightning(options, cooled=true) {
-    if (!canRender) {
-        if (cooled) setTimeout(() => {
-                renderLightning(options, cooled=false);
-            }, 20);
-        return;
-    };
-    cooldown(20);
 
     let displacementMapCanv = document.getElementById("displacementMapCanv");
     let displacementMapCtx = displacementMapCanv.getContext("2d");
@@ -109,10 +96,15 @@ function renderFromInputs() {
     renderLightning(options);
 }
 
+let startTime = Date.now();
 renderFromInputs();
+let endTime = Date.now();
+let baseRenderTime = endTime - startTime;
 
 for (var inputElem of document.querySelectorAll("#options input, #options select")) {
-    inputElem.addEventListener("input", renderFromInputs);
+    inputElem.addEventListener("input", () => {
+        unsavedChanges = true;
+    });
 
     inputElem.addEventListener("focus", function(e) {
         document.querySelector(`label[for=${this.id}]`).style.color = "deepskyblue";
@@ -121,3 +113,12 @@ for (var inputElem of document.querySelectorAll("#options input, #options select
         document.querySelector(`label[for=${this.id}]`).style.color = "";
     });
 }
+
+let tick = () => {
+    if (unsavedChanges) {
+        renderFromInputs();
+        unsavedChanges = false;
+    }
+    setTimeout(tick, 20);
+};
+tick();
