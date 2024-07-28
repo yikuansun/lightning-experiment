@@ -81,6 +81,23 @@ function renderLightning(options, cooled=true) {
 
             }
     }
+
+    let glowCanv = document.getElementById("glowCanv");
+    let glowCtx = glowCanv.getContext("2d");
+    baseCtx.save();
+    baseCtx.globalCompositeOperation = "source-atop";
+    baseCtx.fillStyle = options["glowColor"];
+    baseCtx.fillRect(0, 0, 2000, 1000);
+    baseCtx.restore();
+    glowCtx.fillStyle = "black";
+    glowCtx.fillRect(0, 0, 2000, 1000);
+    glowCtx.save();
+    glowCtx.globalCompositeOperation = "screen";
+    for (let i = 0; i < options["glowDepth"]; i++) {
+        glowCtx.filter = `blur(${Math.pow(i + 1, 2) * options["glowRadius"]}px)`;
+        glowCtx.drawImage(baseCanv, 0, 0);
+    }
+    glowCtx.restore();
 }
 
 function renderFromInputs() {
