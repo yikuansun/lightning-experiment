@@ -53,10 +53,28 @@ class FractalNoise {
         var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         svg.appendChild(this.svgFilter);
         document.body.appendChild(svg);
-        ctx.filter = `url(#${this.svgFilter.id})`;
-        ctx.fillRect(0, 0, canv.width, canv.height);
-        ctx.filter = `url(#${this.svgFilter.id}) opacity(0.77)`;
-        ctx.fillRect(0, 0, canv.width, canv.height);
+        if (this.options.type == "fractalNoise") {
+            ctx.filter = `url(#${this.svgFilter.id})`;
+            ctx.fillRect(0, 0, canv.width, canv.height);
+            ctx.filter = `url(#${this.svgFilter.id}) opacity(0.77)`;
+            ctx.fillRect(0, 0, canv.width, canv.height);
+        }
+        else if (this.options.type == "turbulence") {
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, canv.width, canv.height);
+            ctx.restore();
+            ctx.save();
+            ctx.filter = `url(#${this.svgFilter.id}) invert()`;
+            ctx.fillRect(0, 0, canv.width, canv.height);
+            ctx.restore();
+            ctx.save();
+            ctx.globalCompositeOperation = "overlay";
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, canv.width, canv.height);
+            ctx.fillStyle = "#515151";
+            ctx.fillRect(0, 0, canv.width, canv.height);
+        }
+        else console.log("invalid noise type: " + this.options.type);
         svg.remove();
     }
 }
