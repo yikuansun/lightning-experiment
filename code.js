@@ -33,6 +33,9 @@ function renderLightning(options, cooled=true) {
 
     baseCtx.clearRect(0, 0, 2000, 1000);
 
+    let twitchAmount = options["twitchAmount"];
+    if (options["noiseType"] == "Perlin") twitchAmount /= 3;
+
     let startX = 1000 - options["baseLength"] / 2;
     let endX = startX + options["baseLength"];
 
@@ -44,7 +47,7 @@ function renderLightning(options, cooled=true) {
             displacedY = 500;
         let [ r, g, b, a ] = manipulator.getPixel(Math.round(x), Math.round(y));
         let luma = (r + g + b) / (3 * 255);
-        let deltaPos = (luma - 0.5) * options["twitchAmount"];
+        let deltaPos = (luma - 0.5) * twitchAmount;
         displacedY += Math.round(deltaPos);
         //displacedX += deltaPos;
         let progress = (x - startX) / options["baseLength"];
@@ -67,7 +70,7 @@ function renderLightning(options, cooled=true) {
                 let displacedX = x, displacedY = y;
                 let [ r, g, b ] = manipulator.getPixel(Math.round(x), Math.round(y));
                 let luma = (r + g + b) / (3 * 255);
-                let deltaPos = (luma - 0.5) * options["twitchAmount"];
+                let deltaPos = (luma - 0.5) * twitchAmount;
                 displacedY += Math.round(deltaPos);
                 let progress = dist / branchLength;
                 let startRadius = baseThickness * (1 - (branchStartX - startX) / options["baseLength"] * options["taper"] / 100);
