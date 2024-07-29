@@ -91,6 +91,18 @@ function renderLightning(options, cooled=true) {
     baseCtx.fillStyle = options["coreColor"];
     baseCtx.fillRect(0, 0, 2000, 1000);
     baseCtx.restore();
+
+    let finalCanv = document.getElementById("finalCanv");
+    let finalCtx = finalCanv.getContext("2d");
+    finalCtx.clearRect(0, 0, 2000, 1000);
+
+    let lensBlurMatrix = new NumberCircle(options["softness"]);
+    let lensBlur = new ConvolveMatrixFilter(lensBlurMatrix.matrix);
+    lensBlur.render();
+    finalCtx.filter = lensBlur.getFilter();
+    finalCtx.drawImage(baseCanv, 0, 0);
+    lensBlur.destroy();
+
 }
 
 function renderFromInputs() {
