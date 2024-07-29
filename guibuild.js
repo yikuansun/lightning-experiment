@@ -76,7 +76,7 @@ ygui.buildGUIsection([
         label: "Size",
         id: "coreSize",
         type: "number",
-        attr: { value: 4, step: 1 }
+        attr: { value: 7, step: 1 }
     },
     {
         label: "Softness",
@@ -102,7 +102,7 @@ ygui.buildGUIsection([
         label: "Radius",
         id: "glowRadius",
         type: "number",
-        attr: { value: 8, step: 0.1, min: 0, }
+        attr: { value: 6.4, step: 0.1, min: 0, }
     },
     {
         label: "Color",

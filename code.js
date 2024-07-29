@@ -26,7 +26,7 @@ function renderLightning(options, cooled=true) {
     let startX = 1000 - options["baseLength"] / 2;
     let endX = startX + options["baseLength"];
 
-    let baseThickness = 10;
+    let baseThickness = options["coreSize"];
     baseCtx.fillStyle = "white";
     for (let x = startX; x <= endX; x += 1) {
         let y = 500;
