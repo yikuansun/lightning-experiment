@@ -96,12 +96,40 @@ function renderLightning(options, cooled=true) {
     let finalCtx = finalCanv.getContext("2d");
     finalCtx.clearRect(0, 0, 2000, 1000);
 
-    let lensBlurMatrix = new NumberCircle(options["softness"]);
-    let lensBlur = new ConvolveMatrixFilter(lensBlurMatrix.matrix);
-    lensBlur.render();
-    finalCtx.filter = lensBlur.getFilter();
-    finalCtx.drawImage(baseCanv, 0, 0);
-    lensBlur.destroy();
+    if (options["softness"] < 8) {
+        let lensBlurMatrix = new NumberCircle(options["softness"]);
+        let lensBlur = new ConvolveMatrixFilter(lensBlurMatrix.matrix);
+        lensBlur.render();
+        finalCtx.filter = lensBlur.getFilter();
+        finalCtx.drawImage(baseCanv, 0, 0);
+        lensBlur.destroy();
+    }
+    else if (options["softness"] < 15) {
+        let tempCanv = document.createElement("canvas");
+        tempCanv.width = 1000;
+        tempCanv.height = 500;
+        let tempCtx = tempCanv.getContext("2d");
+        let lensBlurMatrix = new NumberCircle(Math.round(options["softness"] / 2));
+        let lensBlur = new ConvolveMatrixFilter(lensBlurMatrix.matrix);
+        lensBlur.render();
+        tempCtx.filter = lensBlur.getFilter();
+        tempCtx.drawImage(baseCanv, 0, 0, 1000, 500);
+        lensBlur.destroy();
+        finalCtx.drawImage(tempCanv, 0, 0, 2000, 1000);
+    }
+    else {
+        let tempCanv = document.createElement("canvas");
+        tempCanv.width = 500;
+        tempCanv.height = 250;
+        let tempCtx = tempCanv.getContext("2d");
+        let lensBlurMatrix = new NumberCircle(Math.round(options["softness"] / 4));
+        let lensBlur = new ConvolveMatrixFilter(lensBlurMatrix.matrix);
+        lensBlur.render();
+        tempCtx.filter = lensBlur.getFilter();
+        tempCtx.drawImage(baseCanv, 0, 0, 500, 250);
+        lensBlur.destroy();
+        finalCtx.drawImage(tempCanv, 0, 0, 2000, 1000);
+    }
 
 }
 

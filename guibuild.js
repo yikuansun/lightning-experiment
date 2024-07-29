@@ -82,7 +82,7 @@ ygui.buildGUIsection([
         label: "Softness",
         id: "softness",
         type: "number",
-        attr: { value: 4, step: 1, min: 0 }
+        attr: { value: 4, step: 1, min: 0, max: 29, }
     },
     {
         label: "Color",
