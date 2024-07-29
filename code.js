@@ -94,7 +94,11 @@ function renderLightning(options, cooled=true) {
 
     let finalCanv = document.getElementById("finalCanv");
     let finalCtx = finalCanv.getContext("2d");
-    finalCtx.clearRect(0, 0, 2000, 1000);
+    finalCtx.restore(); finalCtx.save();
+
+    finalCtx.filter = `blur(${options["softness"]}px)`;
+    finalCtx.drawImage(glowCanv, 0, 0);
+    finalCtx.restore(); finalCtx.save();
 
     if (options["softness"] < 8) {
         let lensBlurMatrix = new NumberCircle(options["softness"]);
