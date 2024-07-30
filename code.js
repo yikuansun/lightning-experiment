@@ -76,8 +76,7 @@ function renderLightning(options, cooled=true) {
     baseCtx.fillStyle = options["glowColor"];
     baseCtx.fillRect(0, 0, 2000, 1000);
     baseCtx.restore();
-    glowCtx.fillStyle = "black";
-    glowCtx.fillRect(0, 0, 2000, 1000);
+    glowCtx.clearRect(0, 0, 2000, 1000);
     glowCtx.save();
     glowCtx.globalCompositeOperation = "screen";
     for (let i = 0; i < options["glowDepth"]; i++) {
@@ -94,7 +93,10 @@ function renderLightning(options, cooled=true) {
 
     let finalCanv = document.getElementById("finalCanv");
     let finalCtx = finalCanv.getContext("2d");
-    finalCtx.restore(); finalCtx.save();
+    finalCtx.restore();
+    finalCtx.fillStyle = "black";
+    finalCtx.fillRect(0, 0, 2000, 1000);
+    finalCtx.save();
 
     finalCtx.filter = `blur(${options["softness"]}px)`;
     finalCtx.drawImage(glowCanv, 0, 0);

@@ -123,7 +123,7 @@ ygui.buildGUIsection([
         label: "Amount",
         id: "glowTwitchAmount",
         type: "number",
-        attr: { value: 72, step: 1 }
+        attr: { value: 0, step: 1 }
     },
     {
         label: "Scale",
