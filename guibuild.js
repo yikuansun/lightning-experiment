@@ -96,19 +96,19 @@ ygui.buildGUIsection([
         label: "Depth",
         id: "glowDepth",
         type: "number",
-        attr: { value: 6, step: 1, min: 0, max: 20 }
+        attr: { value: 8, step: 1, min: 0, max: 20 }
     },
     {
         label: "Radius",
         id: "glowRadius",
         type: "number",
-        attr: { value: 5, step: 0.1, min: 0, }
+        attr: { value: 2.5, step: 0.1, min: 0, }
     },
     {
         label: "Color",
         id: "glowColor",
         type: "color",
-        attr: { value: "#00BBFF" }
+        attr: { value: "#00AAFF" }
     }
 ], document.getElementById("Glow"));
 ygui.buildGUIsection([
