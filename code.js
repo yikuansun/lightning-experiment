@@ -100,6 +100,24 @@ function renderLightning(options, cooled=true) {
     finalCtx.drawImage(glowCanv, 0, 0);
     finalCtx.restore(); finalCtx.save();
 
+    let glowDistortionMap = new FractalNoise(2000, 1000, {
+        baseFrequency: [options["glowTwitchScale"], options["glowTwitchScale"]],
+        type: (options["glowNoiseType"] == "Fractal")?"fractalNoise":"turbulence",
+        numOctaves: options["glowTwitchOctaves"],
+        seed: options["glowTwitchSeed"],
+        stitchTiles: "stitch",
+    });
+    glowDistortionMap.render();
+    //document.body.appendChild(glowDistortionMap.canvas)
+
+    let glowDistortionOpacity = options["glowTwitchAmount"], glowDistortionContrast = 100;
+    if (options["glowNoiseType"] == "Perlin") glowDistortionOpacity /= 3;
+    if (glowDistortionOpacity > 100) glowDistortionContrast += glowDistortionOpacity - 100;
+    finalCtx.globalCompositeOperation = "overlay";
+    finalCtx.filter = `saturate(0) opacity(${glowDistortionOpacity}%) contrast(${glowDistortionContrast}%)`;
+    finalCtx.drawImage(glowDistortionMap.canvas, 0, 0);
+    finalCtx.restore(); finalCtx.save();
+
     if (options["softness"] < 8) {
         let lensBlurMatrix = new NumberCircle(options["softness"]);
         let lensBlur = new ConvolveMatrixFilter(lensBlurMatrix.matrix);
