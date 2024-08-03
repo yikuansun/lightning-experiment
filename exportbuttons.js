@@ -1,27 +1,29 @@
-document.querySelector("#exportPNG").addEventListener("click", function() {
-    rasterize(document.querySelector("svg"), 1, "png").then((x) => {
-        if (new URLSearchParams(location.search).get("photopeaPlugin") == "yes") {
-            Photopea.runScript(window.parent, `app.open("${x}", null, true)`);
-        }
-        else {
-            var a = document.createElement("a");
-            a.href = x;
-            a.download = "lightning.png";
-            a.click();
-        }
-    });
-});
-
-document.querySelector("#exportSVG").addEventListener("click", function() {
-    var a = document.createElement("a");
-    var s = (new XMLSerializer()).serializeToString(document.querySelector("svg"));
-    var encodedData = window.btoa(s);
-    a.href = "data:image/svg+xml;base64," + encodedData;
-    a.download = "lightning.svg";
-    a.click();
-});
-
 if (new URLSearchParams(location.search).get("photopeaPlugin") == "yes") {
     document.querySelector("#exportPNG").innerText = "Add to document";
-    document.querySelector("#exportSVG").style.display = "none";
+    let pea = new Photopea(window.parent);
+    document.querySelector("#exportPNG").addEventListener("click", async () => {
+        let finalCanv = document.getElementById("finalCanv");
+        await pea.openFromURL(finalCanv.toDataURL());
+        await pea.runScript("app.activeDocument.activeLayer.blendMode = 'scrn';");
+        await pea.runScript("app.activeDocument.activeLayer.name = 'Zeus';");
+        // open free transform
+        await pea.runScript(`
+            var cTID = charIDToTypeID;
+
+            var desc1 = new ActionDescriptor();
+            var ref1 = new ActionReference();
+            ref1.putEnumerated(cTID('Mn  '), cTID('MnIt'), cTID('FrTr'));
+            desc1.putReference(cTID('null'), ref1);
+            executeAction(cTID('slct'), desc1, DialogModes.NO);
+        `);
+    });
+}
+else {
+    document.querySelector("#exportPNG").addEventListener("click", async () => {
+        let finalCanv = document.getElementById("finalCanv");
+        let a = document.createElement("a");
+        a.href = finalCanv.toDataURL();
+        a.download = "Zeus.png";
+        a.click();
+    });
 }
