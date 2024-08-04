@@ -1,10 +1,16 @@
 ygui.buildGUIsection([
     {
-        label: "Indent",
-        id: "indent",
+        label: "Length",
+        id: "baseLength",
         type: "number",
-        attr: { value: 310, step: 1 }
-    }
+        attr: { value: 1000, step: 1 }
+    },
+    {
+        label: "Taper",
+        id: "taper",
+        type: "number",
+        attr: { value: 70, step: 1, min: 0, max: 100, }
+    },
 ], document.getElementById("Dimensions"));
 ygui.buildGUIsection([
     {
@@ -12,19 +18,19 @@ ygui.buildGUIsection([
         id: "noiseType",
         type: "select",
         options: ["Perlin", "Fractal"],
-        attr: { value: "Perlin" }
+        attr: { value: "Fractal" },
     },
     {
         label: "Amount",
         id: "twitchAmount",
         type: "number",
-        attr: { value: 169, step: 1 }
+        attr: { value: 400, step: 1 }
     },
     {
         label: "Scale",
         id: "twitchScale",
         type: "number",
-        attr: { value: 0.004, step: 0.001 }
+        attr: { value: 0.005, step: 0.001 }
     },
     {
         label: "Complexity",
@@ -56,13 +62,13 @@ ygui.buildGUIsection([
         label: "Length Delta",
         id: "branchLenDelta",
         type: "number",
-        attr: { value: 50, step: 1, min: 0 }
+        attr: { value: 54, step: 1, min: 0 }
     },
     {
         label: "Angle",
         id: "branchAngle",
         type: "number",
-        attr: { value: 45, step: 1, min: 0, max: 360 }
+        attr: { value: 33, step: 1, min: 0, max: 360 }
     }
 ], document.getElementById("Branches"));
 ygui.buildGUIsection([
@@ -70,13 +76,13 @@ ygui.buildGUIsection([
         label: "Size",
         id: "coreSize",
         type: "number",
-        attr: { value: 4, step: 1 }
+        attr: { value: 7, step: 1 }
     },
     {
         label: "Softness",
         id: "softness",
         type: "number",
-        attr: { value: 4, step: 1, min: 0 }
+        attr: { value: 4, step: 1, min: 0, max: 29, }
     },
     {
         label: "Color",
@@ -96,13 +102,13 @@ ygui.buildGUIsection([
         label: "Radius",
         id: "glowRadius",
         type: "number",
-        attr: { value: 8, step: 0.1 }
+        attr: { value: 2.5, step: 0.1, min: 0, }
     },
     {
         label: "Color",
         id: "glowColor",
         type: "color",
-        attr: { value: "#00BBFF" }
+        attr: { value: "#00AAFF" }
     }
 ], document.getElementById("Glow"));
 ygui.buildGUIsection([
@@ -117,7 +123,7 @@ ygui.buildGUIsection([
         label: "Amount",
         id: "glowTwitchAmount",
         type: "number",
-        attr: { value: 72, step: 1 }
+        attr: { value: 0, step: 1 }
     },
     {
         label: "Scale",
@@ -139,3 +145,4 @@ ygui.buildGUIsection([
     }
 ], document.getElementById("Glow_Distortion"));
 document.querySelector("#glowNoiseType").value = "Fractal"; //????
+document.querySelector("#noiseType").value = "Fractal";

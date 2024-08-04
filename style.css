@@ -91,20 +91,12 @@ button:hover {
 }
 
 @media only screen and (max-width: 600px) {
-    #previewContainer {
-        width: 100%!important;
-    }
-    #newPreview {
+    #previewSpace {
         width: 100%!important;
     }
     #options {
         width: calc(100% - 57px);
     }
-}
-
-#previewContainer {
-    background-color: black;
-    display: none;
 }
 
 #presetselector {

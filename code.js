@@ -1,132 +1,179 @@
-function renderLightning(indent=310, noiseType="Perlin", twitchAmount=169, twitchScale=0.004, twitchOctaves=5, twitchSeed=8, numBranches=5, branchLen=300, branchAngle=0.785, branchLenDelta=50, coreSize=4, coreColor="#FFFFFF", softness=4, glowRadius=0.8, glowDepth=7, glowColor="#00BBFF", glowNoiseType="Fractal", glowTwitchAmount=72, glowTwitchScale=0.008, glowTwitchOctaves=7, glowTwitchSeed=1) {
-    const svgns = "http://www.w3.org/2000/svg";
-    var svgElem = document.querySelector("svg");
-    var dimensions = {
-        w: parseFloat(svgElem.getAttribute("viewBox").split(" ")[2]),
-        h: parseFloat(svgElem.getAttribute("viewBox").split(" ")[3])
-    };
+let unsavedChanges = false;
 
-    var filters = `
-    <filter id="displacementFilter" x="${-indent}" y="${-indent}" width="${dimensions.w}" height="${dimensions.h}">
-        <feTurbulence type="${(noiseType == "Perlin")?"turbulence":"fractalNoise"}" baseFrequency="${twitchScale}"
-            numOctaves="${twitchOctaves}" seed="${twitchSeed}" result="turbulence"/>
-        <feDisplacementMap in2="turbulence" in="SourceGraphic"
-            scale="${twitchAmount}" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
+function renderLightning(options, cooled=true) {
 
-    <filter id="blurFilter" x="${-indent}" y="${-indent}" width="${dimensions.w}" height="${dimensions.h}">
-        <feConvolveMatrix order="${softness + 1}" kernelMatrix="${("1 ".repeat(softness + 1) + "\n").repeat(softness + 1)}" color-interpolation-filters="sRGB" />
-    </filter>
+    let displacementMapCanv = document.getElementById("displacementMapCanv");
+    let displacementMapCtx = displacementMapCanv.getContext("2d");
+    let displacementMap = new FractalNoise(2000, 1000, {
+        baseFrequency: [options["twitchScale"], options["twitchScale"]],
+        type: (options["noiseType"] == "Fractal")?"fractalNoise":"turbulence",
+        numOctaves: options["twitchOctaves"],
+        seed: options["twitchSeed"],
+        stitchTiles: "stitch"
+    });
+    displacementMap.render();
+    displacementMapCtx.drawImage(displacementMap.canvas, 0, 0);
+    let manipulator = new PixelManipulator(displacementMap.canvas);
 
-    <filter id="glowFilter1" x="${-indent}" y="${-indent}" width="${dimensions.w}" height="${dimensions.h}">
-        <feFlood result="flood" flood-color="${glowColor}" flood-opacity="1"></feFlood>
-        <feComposite in="flood" result="mask" in2="SourceGraphic" operator="in"></feComposite>`;
-    for (var i = 0; i < glowDepth; i++) {
-        filters += `
-        <feGaussianBlur in="mask" result="blurred${i}" stdDeviation="${glowRadius * Math.pow(i + 1, 2)}"></feGaussianBlur>
-        `;
+    let baseCanv = document.getElementById("baseCanv");
+    let baseCtx = baseCanv.getContext("2d");
+
+    baseCtx.clearRect(0, 0, 2000, 1000);
+
+    let twitchAmount = options["twitchAmount"];
+    if (options["noiseType"] == "Perlin") twitchAmount /= 3;
+
+    let startX = 1000 - options["baseLength"] / 2;
+    let endX = startX + options["baseLength"];
+
+    let baseThickness = options["coreSize"];
+    baseCtx.fillStyle = "white";
+    for (let x = startX; x <= endX; x += 1) {
+        let y = 500;
+        let displacedX = x,
+            displacedY = 500;
+        let [ r, g, b, a ] = manipulator.getPixel(Math.round(x), Math.round(y));
+        let luma = (r + g + b) / (3 * 255);
+        let deltaPos = (luma - 0.5) * twitchAmount;
+        displacedY += Math.round(deltaPos);
+        //displacedX += deltaPos;
+        let progress = (x - startX) / options["baseLength"];
+        let radius = baseThickness * (1 - progress * options["taper"] / 100);
+        baseCtx.beginPath();
+        baseCtx.arc(displacedX, displacedY, radius, 0, 2 * Math.PI);
+        baseCtx.fill();
     }
-    for (var i = 0; i < glowDepth; i++) {
-        filters += `
-        <feBlend in="${(i == 0)?"blurred0":("glowLayer" + i)}" in2="blurred${i + 1}" mode="screen" result="glowLayer${i + 1}" />
-        `;
+
+    let branchAngleRad = options["branchAngle"] * Math.PI / 180;
+    let branchSpace = options["baseLength"] / (options["numBranches"] + 1);
+    for (let i = 0; i < options["numBranches"]; i++) {
+        let flipBranch = (i % 2 == 0)?1:-1;
+        let branchLength = options["branchLen"] - options["branchLenDelta"] * i;
+        let branchStartX = startX + (i + 1) * branchSpace,
+            branchStartY = 500;
+            for (let dist = 0; dist < branchLength; dist++) {
+                let x = branchStartX + dist * Math.cos(branchAngleRad),
+                    y = branchStartY + dist * Math.sin(branchAngleRad) * flipBranch;
+                let displacedX = x, displacedY = y;
+                let [ r, g, b ] = manipulator.getPixel(Math.round(x), Math.round(y));
+                let luma = (r + g + b) / (3 * 255);
+                let deltaPos = (luma - 0.5) * twitchAmount;
+                displacedY += Math.round(deltaPos);
+                let progress = dist / branchLength;
+                let startRadius = baseThickness * (1 - (branchStartX - startX) / options["baseLength"] * options["taper"] / 100);
+                let radius = startRadius * (1 - progress * options["taper"] / 100);
+                baseCtx.beginPath();
+                baseCtx.arc(displacedX, displacedY, radius, 0, 2 * Math.PI);
+                baseCtx.fill();
+
+            }
     }
-    filters += `
-        <feTurbulence type="${(glowNoiseType == "Perlin")?"turbulence":"fractalNoise"}" baseFrequency="${glowTwitchScale}"
-            numOctaves="${glowTwitchOctaves}" seed="${glowTwitchSeed}" result="glowFNoise" />
-        <feDisplacementMap in2="glowFNoise" in="glowLayer${glowDepth}"
-            scale="${glowTwitchAmount}" xChannelSelector="R" yChannelSelector="G" result="glowFinal" />
-    `;
-    filters += `
-        <feMerge>`;
-    if (glowDepth > 0) filters += `<feMergeNode in="glowFinal"></feMergeNode>`;
-    filters += `<feMergeNode in="SourceGraphic"></feMergeNode>
-        </feMerge>
-    </filter>
-    `;
-    svgElem.innerHTML = filters;
 
-    var baseGroup = document.createElementNS(svgns, "g");
-    baseGroup.style.filter = "url(#displacementFilter) url(#blurFilter) url(#glowFilter1)";
-    svgElem.appendChild(baseGroup);
-
-    var baseLine = document.createElementNS(svgns, "line");
-    baseLine.setAttribute("x1", indent);baseLine.setAttribute("x2", dimensions.w - indent);
-    baseLine.setAttribute("y1", indent);baseLine.setAttribute("y2", dimensions.h - indent);
-    baseLine.setAttribute("stroke", coreColor);
-    baseLine.style.strokeWidth = `${coreSize}px`;
-    baseLine.style.strokeLinecap = "round";
-    baseGroup.appendChild(baseLine);
-
-    var slope = (dimensions.h - 2 * indent) / (dimensions.w - 2 * indent);
-    var branchSpace = (dimensions.w - 2 * indent) / (numBranches + 1);
-    const baseAngle = Math.atan2(dimensions.h - 2 * indent, dimensions.w - 2 * indent);
-    var branchAngleConverted = branchAngle * Math.PI / 180;
-    for (var i = 1; i < numBranches + 1; i++) {
-        var branch = document.createElementNS(svgns, "line");
-        var flipBranch = (i % 2 == 0)?-1:1;
-        branch.setAttribute("x1", indent + i * branchSpace);branch.setAttribute("x2", indent + i * branchSpace + branchLen * Math.cos(baseAngle + branchAngleConverted * flipBranch));
-        branch.setAttribute("y1", indent + i * slope * branchSpace);branch.setAttribute("y2", indent + i * slope * branchSpace + branchLen * Math.sin(baseAngle + branchAngleConverted * flipBranch));
-        branch.setAttribute("stroke", coreColor);
-        branch.style.strokeWidth = `${coreSize}px`;
-        branch.style.strokeLinecap = "round";
-        baseGroup.appendChild(branch);
-        branchLen -= branchLenDelta;
+    let glowCanv = document.getElementById("glowCanv");
+    let glowCtx = glowCanv.getContext("2d");
+    baseCtx.save();
+    baseCtx.globalCompositeOperation = "source-atop";
+    baseCtx.fillStyle = options["glowColor"];
+    baseCtx.fillRect(0, 0, 2000, 1000);
+    baseCtx.restore();
+    glowCtx.clearRect(0, 0, 2000, 1000);
+    glowCtx.save();
+    glowCtx.globalCompositeOperation = "screen";
+    for (let i = 0; i < options["glowDepth"]; i++) {
+        glowCtx.filter = `blur(${Math.pow(i + 1, 2) * options["glowRadius"]}px)`;
+        glowCtx.drawImage(baseCanv, 0, 0);
     }
+    glowCtx.restore();
+
+    baseCtx.save();
+    baseCtx.globalCompositeOperation = "source-atop";
+    baseCtx.fillStyle = options["coreColor"];
+    baseCtx.fillRect(0, 0, 2000, 1000);
+    baseCtx.restore();
+
+    let finalCanv = document.getElementById("finalCanv");
+    let finalCtx = finalCanv.getContext("2d");
+    finalCtx.restore();
+    finalCtx.fillStyle = "black";
+    finalCtx.fillRect(0, 0, 2000, 1000);
+    finalCtx.save();
+
+    finalCtx.filter = `blur(${options["softness"]}px)`;
+    finalCtx.drawImage(glowCanv, 0, 0);
+    finalCtx.restore(); finalCtx.save();
+
+    let glowDistortionMap = new FractalNoise(2000, 1000, {
+        baseFrequency: [options["glowTwitchScale"], options["glowTwitchScale"]],
+        type: (options["glowNoiseType"] == "Fractal")?"fractalNoise":"turbulence",
+        numOctaves: options["glowTwitchOctaves"],
+        seed: options["glowTwitchSeed"],
+        stitchTiles: "stitch",
+    });
+    glowDistortionMap.render();
+    //document.body.appendChild(glowDistortionMap.canvas)
+
+    let glowDistortionOpacity = options["glowTwitchAmount"], glowDistortionContrast = 100;
+    if (options["glowNoiseType"] == "Perlin") glowDistortionOpacity /= 3;
+    if (glowDistortionOpacity > 100) glowDistortionContrast += glowDistortionOpacity - 100;
+    finalCtx.globalCompositeOperation = "overlay";
+    finalCtx.filter = `saturate(0) opacity(${glowDistortionOpacity}%) contrast(${glowDistortionContrast}%)`;
+    finalCtx.drawImage(glowDistortionMap.canvas, 0, 0);
+    finalCtx.restore(); finalCtx.save();
+
+    if (options["softness"] < 8) {
+        let lensBlurMatrix = new NumberCircle(options["softness"]);
+        let lensBlur = new ConvolveMatrixFilter(lensBlurMatrix.matrix);
+        lensBlur.render();
+        finalCtx.filter = lensBlur.getFilter();
+        finalCtx.drawImage(baseCanv, 0, 0);
+        lensBlur.destroy();
+    }
+    else if (options["softness"] < 15) {
+        let tempCanv = document.createElement("canvas");
+        tempCanv.width = 1000;
+        tempCanv.height = 500;
+        let tempCtx = tempCanv.getContext("2d");
+        let lensBlurMatrix = new NumberCircle(Math.round(options["softness"] / 2));
+        let lensBlur = new ConvolveMatrixFilter(lensBlurMatrix.matrix);
+        lensBlur.render();
+        tempCtx.filter = lensBlur.getFilter();
+        tempCtx.drawImage(baseCanv, 0, 0, 1000, 500);
+        lensBlur.destroy();
+        finalCtx.drawImage(tempCanv, 0, 0, 2000, 1000);
+    }
+    else {
+        let tempCanv = document.createElement("canvas");
+        tempCanv.width = 500;
+        tempCanv.height = 250;
+        let tempCtx = tempCanv.getContext("2d");
+        let lensBlurMatrix = new NumberCircle(Math.round(options["softness"] / 4));
+        let lensBlur = new ConvolveMatrixFilter(lensBlurMatrix.matrix);
+        lensBlur.render();
+        tempCtx.filter = lensBlur.getFilter();
+        tempCtx.drawImage(baseCanv, 0, 0, 500, 250);
+        lensBlur.destroy();
+        finalCtx.drawImage(tempCanv, 0, 0, 2000, 1000);
+    }
+
 }
 
-function newPreview() {
-    var svgElem = document.querySelector("svg");
-    var svgData = new XMLSerializer().serializeToString(svgElem);
-    var imgElem = document.createElement("img");
-    imgElem.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)));
-    imgElem.onload = function() {
-        var svgClientRect = {
-            width: parseFloat(svgElem.getAttribute("viewBox").split(" ")[2]),
-            height: parseFloat(svgElem.getAttribute("viewBox").split(" ")[3])
-        };
-        var canvas = document.querySelector("canvas");
-        canvas.width = svgClientRect.width;
-        canvas.height = svgClientRect.height;
-        var ctx = canvas.getContext("2d");
-        ctx.drawImage(imgElem, 0, 0, svgClientRect.width, svgClientRect.height);
-    };
+function renderFromInputs() {
+    var options = {};
+    for (var inputElem of document.querySelectorAll("#options input, #options select")) {
+        options[inputElem.id] = inputElem.value;
+        if (!isNaN(inputElem.value)) options[inputElem.id] = parseFloat(inputElem.value);
+    }
+    renderLightning(options);
 }
 
-renderLightning();
-newPreview();
+let startTime = Date.now();
+renderFromInputs();
+let endTime = Date.now();
+let baseRenderTime = endTime - startTime;
 
 for (var inputElem of document.querySelectorAll("#options input, #options select")) {
-    inputElem.addEventListener("input", function() {
-        var options = {};
-        for (var inputElem of document.querySelectorAll("#options input, #options select")) {
-            options[inputElem.id] = inputElem.value;
-            if (!isNaN(inputElem.value)) options[inputElem.id] = parseFloat(inputElem.value);
-        }
-        renderLightning(
-            indent=options.indent,
-            noiseType=options.noiseType,
-            twitchAmount=options.twitchAmount,
-            twitchScale=options.twitchScale,
-            twitchOctaves=options.twitchOctaves,
-            twitchSeed=options.twitchSeed,
-            numBranches=options.numBranches,
-            branchLen=options.branchLen,
-            branchAngle=options.branchAngle,
-            branchLenDelta=options.branchLenDelta,
-            coreSize=options.coreSize,
-            coreColor=options.coreColor,
-            softness=options.softness,
-            glowRadius=options.glowRadius,
-            glowDepth=options.glowDepth,
-            glowColor=options.glowColor,
-            glowNoiseType=options.glowNoiseType,
-            glowTwitchAmount=options.glowTwitchAmount,
-            glowTwitchScale=options.glowTwitchScale,
-            glowTwitchOctaves=options.glowTwitchOctaves,
-            glowTwitchSeed=options.glowTwitchSeed,
-        );
-        newPreview();
+    inputElem.addEventListener("input", () => {
+        unsavedChanges = true;
     });
 
     inputElem.addEventListener("focus", function(e) {
@@ -136,3 +183,12 @@ for (var inputElem of document.querySelectorAll("#options input, #options select
         document.querySelector(`label[for=${this.id}]`).style.color = "";
     });
 }
+
+let tick = () => {
+    if (unsavedChanges) {
+        renderFromInputs();
+        unsavedChanges = false;
+    }
+    setTimeout(tick, 20);
+};
+tick();

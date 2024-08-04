@@ -13,12 +13,15 @@
     </head>
     <body>
         <center>
-            <button id="exportPNG">Export PNG</button><button id="exportSVG">Export SVG</button>
-            <div style="width: 600px;" id="previewContainer">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900"></svg>
+            <button id="exportPNG">Export PNG</button>
+            <br />
+            <div id="previewSpace" style="width: 600px;">
+                <canvas id="baseCanv" width="2000" height="1000" style="width: 100%; display: none;"></canvas>
+                <canvas id="displacementMapCanv" width="2000" height="1000" style="width: 100%; display: none;"></canvas>
+                <canvas id="glowCanv" width="2000" height="1000" style="width: 100%; display: none;"></canvas>
+                <canvas id="finalCanv" width="2000" height="1000" style="width: 100%;"></canvas>
             </div>
-            <br /> <canvas id="newPreview" style="width: 600px; background-color: black;"></canvas>
-            <br /> Preset: <select id="presetselector"></select> <br />
+            Preset: <select id="presetselector"></select> <br />
         </center>
         <div id="options">
             <b>Dimensions</b>
@@ -34,6 +37,10 @@
             <br /><b>Glow Distortion</b>
             <div id="Glow_Distortion"></div>
         </div>
+        <script src="FractalNoise.js"></script>
+        <script src="NumberCircle.js"></script>
+        <script src="ConvolveMatrixFilter.js"></script>
+        <script src="PixelManipulator.js"></script>
         <script src="lib/photopea.min.js"></script>
         <script src="rasterizer.js"></script>
         <script src="lib/ygui.min.js"></script>
