@@ -186,7 +186,12 @@ for (var inputElem of document.querySelectorAll("#options input, #options select
 
 let tick = () => {
     if (unsavedChanges) {
-        renderFromInputs();
+        try {
+            renderFromInputs();
+        }
+        catch(err) {
+            console.log(err);
+        }
         unsavedChanges = false;
     }
     setTimeout(tick, 20);
